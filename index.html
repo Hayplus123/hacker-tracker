@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>hacker-tester | Live Outage Tracker</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #0f172a;
+      color: #f8fafc;
+      margin: 0;
+      padding: 2rem;
+    }
+    header { max-width: 900px; margin: 0 auto 2rem auto; }
+    h1 { margin-bottom: 0.5rem; }
+    p { color: #94a3b8; }
+    #feed { max-width: 900px; margin: 0 auto; display: grid; gap: 1rem; }
+    .card {
+      background: #1e293b;
+      border-radius: 8px;
+      padding: 1.25rem;
+      border-left: 6px solid #64748b;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3);
+    }
+    .card.minor { border-left-color: #f59e0b; }
+    .card.major { border-left-color: #ef4444; }
+    .card.critical { border-left-color: #dc2626; }
+    .card-header { display: flex; justify-content: space-between; align-items: center; }
+    .company-name { font-size: 1.2rem; font-weight: 700; }
+    .badge {
+      font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+      padding: 0.25rem 0.6rem; border-radius: 9999px; background: #334155;
+    }
+    .badge.minor { background: #78350f; color: #fef3c7; }
+    .badge.major { background: #7f1d1d; color: #fecaca; }
+    .category { font-size: 0.85rem; color: #94a3b8; margin-top: 0.25rem; }
+    .incident-details { margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid #334155; font-size: 0.95rem; }
+    #empty-state { text-align: center; padding: 3rem; background: #1e293b; border-radius: 8px; color: #10b981; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>hacker-tester Outage Dashboard</h1>
+    <p>Real-time incident monitor for major cloud, AI, and platform infrastructure.</p>
+  </header>
+  <div id="feed"><div id="loading">Checking legitimate status endpoints...</div></div>
+  <script src="app.js"></script>
+</body>
+</html>
