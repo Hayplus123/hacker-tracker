@@ -1,10 +1,17 @@
+// Comprehensive, unfiltered list of services utilizing public status endpoints
 const TARGET_SERVICES = [
   { name: "OpenAI", category: "AI Services", endpoint: "https://status.openai.com/api/v2/summary.json" },
-  { name: "Cloudflare", category: "Infrastructure & Hosting", endpoint: "https://www.cloudflarestatus.com/api/v2/summary.json" },
+  { name: "Cloudflare", category: "Infrastructure & CDN", endpoint: "https://www.cloudflarestatus.com/api/v2/summary.json" },
   { name: "GitHub", category: "Developer Hosting", endpoint: "https://www.githubstatus.com/api/v2/summary.json" },
-  { name: "Discord", category: "App & Communication", endpoint: "https://discordstatus.com/api/v2/summary.json" },
-  { name: "Atlassian", category: "App Ecosystem", endpoint: "https://status.atlassian.com/api/v2/summary.json" },
-  { name: "Datadog", category: "Cloud Monitoring", endpoint: "https://status.datadoghq.com/api/v2/summary.json" }
+  { name: "Discord", category: "Communication", endpoint: "https://discordstatus.com/api/v2/summary.json" },
+  { name: "Atlassian", category: "Software & Productivity", endpoint: "https://status.atlassian.com/api/v2/summary.json" },
+  { name: "Datadog", category: "Cloud Monitoring", endpoint: "https://status.datadoghq.com/api/v2/summary.json" },
+  { name: "Reddit", category: "Social & Community", endpoint: "https://reddit.statuspage.io/api/v2/summary.json" },
+  { name: "Twilio", category: "Communications API", endpoint: "https://status.twilio.com/api/v2/summary.json" },
+  { name: "Shopify", category: "E-commerce", endpoint: "https://www.shopifystatus.com/api/v2/summary.json" },
+  { name: "Zoom", category: "Video Conferencing", endpoint: "https://status.zoom.us/api/v2/summary.json" },
+  { name: "Stripe", category: "Payment Processing", endpoint: "https://status.stripe.com/api/v2/summary.json" },
+  { name: "Vercel", category: "App Hosting", endpoint: "https://www.vercel-status.com/api/v2/summary.json" }
 ];
 
 async function checkServiceStatuses() {
@@ -18,11 +25,13 @@ async function checkServiceStatuses() {
       if (!response.ok) continue;
 
       const data = await response.json();
-      const indicator = data.status.indicator; 
+      const indicator = data.status.indicator; // 'none', 'minor', 'major', 'critical'
       const activeIncidents = data.incidents || [];
 
+      // Pop up ONLY when there is trouble (unfiltered across all listed companies)
       if (indicator !== "none" || activeIncidents.length > 0) {
         activeIncidentsFound++;
+        
         let severityClass = "minor";
         let severityLabel = "Minor Degraded Performance";
 
@@ -31,7 +40,7 @@ async function checkServiceStatuses() {
           severityLabel = "Major Outage";
         } else if (indicator === "critical") {
           severityClass = "critical";
-          severityLabel = "Critical Failure";
+          severityLabel = "Critical System Failure";
         }
 
         const latestIncident = activeIncidents[0];
@@ -56,12 +65,12 @@ async function checkServiceStatuses() {
         feedEl.appendChild(card);
       }
     } catch (error) {
-      console.warn(`Network error for ${service.name}`);
+      console.warn(`CORS or Network restriction for ${service.name}`);
     }
   }
 
   if (activeIncidentsFound === 0) {
-    feedEl.innerHTML = `<div id="empty-state">✅ All monitored services in hacker-tester are operating normally.</div>`;
+    feedEl.innerHTML = `<div id="empty-state">✅ All monitored services in hacker-tester are operating normally with zero active issues.</div>`;
   }
 }
 
